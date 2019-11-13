@@ -1,23 +1,14 @@
 ﻿<Window x:Class="FreedomCounter.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FreedomCounter"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="294.828" Width="570.69"
-        WindowStyle="None"
-        AllowsTransparency="True">
-    <Window.Background>
-        <SolidColorBrush Opacity="0.01" Color="White"/>
-    </Window.Background>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="7*"/>
-            <RowDefinition Height="218*"/>
-        </Grid.RowDefinitions>
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:FreedomCounter"
+    mc:Ignorable="d"
+    Title="Freedom Counter" Height="350" Width="525"
+    Style="{StaticResource CustomWindowStyle}">
+    <Grid Margin="0,0,-75,0">
         <TextBox Name="tbTime"  FontSize="72px" BorderThickness="0px" Background="Transparent" Foreground="White" HorizontalAlignment="Left" Height="137" Margin="114,64.2,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="353" Grid.Row="1"/>
-
     </Grid>
 </Window>
 
