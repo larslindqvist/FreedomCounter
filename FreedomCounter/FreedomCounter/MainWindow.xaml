@@ -1,14 +1,81 @@
-﻿<Window x:Class="FreedomCounter.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:FreedomCounter"
-    mc:Ignorable="d"
-    Title="Freedom Counter" Height="350" Width="525"
-    Style="{StaticResource CustomWindowStyle}">
-    <Grid Margin="0,0,-75,0">
-        <TextBox Name="tbTime"  FontSize="72px" BorderThickness="0px" Background="Transparent" Foreground="White" HorizontalAlignment="Left" Height="137" Margin="114,64.2,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="353" Grid.Row="1"/>
+﻿<Window x:Name="ContentWindow" x:Class="FreedomCounter.MainWindow"  
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Width="300px"
+        Height="400px"
+        SizeToContent="Height"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="toolBar">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="0"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock TextAlignment="Center"
+                               Margin="0 0 0 0"
+                               FontSize="22"
+                               FontWeight="DemiBold"
+                               Foreground="AliceBlue"
+                               Background="Black"
+                               Opacity="0.5"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <TextBlock TextAlignment="Center"
+                               Margin="0 0 0 0"
+                               FontSize="22"
+                               FontWeight="DemiBold"
+                               Foreground="AliceBlue"
+                               Background="Black"
+                               Opacity="0.5"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Margin="0,0,0,3"
+                            Background="Transparent" Height="22">
+                <Button x:Name="SettingsButton"
+                            Content="Add"
+                            Width="30"
+                            Height="22"
+                            Margin="0 0 10 0"
+                            Foreground="AliceBlue"
+                            Background="Black">
+                </Button>
+                <Button x:Name="ExitButton"
+                            Content="x"
+                            Width="30"
+                            Height="22"
+                            Margin="0 0 10 0"
+                            Foreground="AliceBlue"
+                            Background="Black">
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="ContentGrid" Grid.Row ="1" Background="Black">
+            <StackPanel>
+                <Label FontSize="30" Foreground="White" Background="Transparent">Freedom Counter</Label>
+                <Label x:Name="timeLeft" FontSize="50" Foreground="White" Background="Transparent"></Label>
+                <StackPanel Orientation="Horizontal">
+                    <Label FontSize="20" Foreground="White" Background="Transparent">You are free at:</Label>
+                    <Label x:Name="freeTime" FontSize="20" Foreground="White" Background="Transparent"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label FontSize="20" Foreground="White" Background="Transparent">Overtime:</Label>
+                    <Label x:Name="overtime" FontSize="20" Foreground="White" Background="Transparent"></Label>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
 
