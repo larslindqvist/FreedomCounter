@@ -1,20 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using MouseButton = System.Windows.Input.MouseButton;
 
 namespace FreedomCounter
 {
@@ -23,10 +13,12 @@ namespace FreedomCounter
     /// </summary>
     public partial class MainWindow : Window
     {
+        private SettingsConfig config;
         DispatcherTimer _timer;
         TimeSpan _time;
-        private int count = 0;
         private Window settingsWindow;
+        private int _Counter;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,16 +39,18 @@ namespace FreedomCounter
                 ContentGrid.Background = ContentGrid.Background.Clone();
             }
             ContentGrid.Background.Opacity = 0.01;
-            _time = TimeSpan.FromSeconds(120);
-            _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
-            {
-                timeLeft.Content = _time.ToString("c");
-                freeTime.Content = _time.ToString("c");
-                overtime.Content = _time.ToString("c");
-                if (_time == TimeSpan.Zero) _timer.Stop();
-                _time = _time.Add(TimeSpan.FromSeconds(-1));
-            }, Application.Current.Dispatcher);
-            _timer.Start();
+
+
+
+             DispatcherTimer timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
+             {
+                 GetWorkdayValue();
+                 _Counter += 1;
+                 timeLeft.Content = TimeSpan.FromSeconds(_Counter).ToString();
+                 freeTime.Content = (DateTime.Now + TimeSpan.FromHours(config.Workday)).ToShortTimeString();
+                 overtime.Content = "00:00";
+             }, this.Dispatcher);
+
 
             toolBar.Visibility = Visibility.Collapsed;
             ContentWindow.MouseMove += Window_MouseMove;
@@ -65,6 +59,12 @@ namespace FreedomCounter
 
             SettingsButton.Click += Settings_Clicked;
 
+        }
+
+        private void GetWorkdayValue()
+        {
+            config = new SettingsConfig();
+            config.GetSetting("Workday");
         }
 
         private void Settings_Clicked(object sender, RoutedEventArgs e)
