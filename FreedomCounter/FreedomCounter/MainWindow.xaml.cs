@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -25,6 +26,7 @@ namespace FreedomCounter
         DispatcherTimer _timer;
         TimeSpan _time;
         private int count = 0;
+        private Window settingsWindow;
         public MainWindow()
         {
             InitializeComponent();
@@ -61,8 +63,18 @@ namespace FreedomCounter
             ContentWindow.MouseLeave += Window_MouseInOut;
             ContentWindow.MouseEnter += Window_MouseInOut;
 
+            SettingsButton.Click += Settings_Clicked;
+
         }
 
+        private void Settings_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (settingsWindow == null)
+            {
+                settingsWindow = new SettingsWindow();
+                settingsWindow.Show();
+            }
+        }
         private void Window_MouseInOut(object sender, MouseEventArgs e)
         {
             if (ContentWindow.IsMouseOver)
