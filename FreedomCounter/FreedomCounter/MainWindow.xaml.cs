@@ -1,7 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -14,10 +11,9 @@ namespace FreedomCounter
     public partial class MainWindow : Window
     {
         private SettingsConfig config;
-        DispatcherTimer _timer;
-        TimeSpan _time;
         private Window settingsWindow;
-        private int _Counter;
+        private int _CounterDown;
+        private int _CounterUp;
 
         public MainWindow()
         {
@@ -42,14 +38,22 @@ namespace FreedomCounter
 
 
 
-             DispatcherTimer timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
-             {
-                 GetWorkdayValue();
-                 _Counter += 1;
-                 timeLeft.Content = TimeSpan.FromSeconds(_Counter).ToString();
-                 freeTime.Content = (DateTime.Now + TimeSpan.FromHours(config.Workday)).ToShortTimeString();
-                 overtime.Content = "00:00";
-             }, this.Dispatcher);
+            DispatcherTimer timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
+            {
+                GetWorkdayandLunchValue();
+                _CounterDown -= 1;
+                timeLeft.Content = new TimeSpan(config.Workday, config.Lunch, _CounterDown);
+                freeTime.Content = (DateTime.Now + TimeSpan.FromHours(config.Workday)).ToShortTimeString();
+                if (timeLeft.Content.Equals("08:00"))
+                {
+                    _CounterUp += 1;
+                    overtime.Content = new TimeSpan(0, 0, _CounterUp);
+                }
+                else
+                {
+                    overtime.Content = "00:00";
+                };
+            }, this.Dispatcher);
 
 
             toolBar.Visibility = Visibility.Collapsed;
@@ -58,13 +62,17 @@ namespace FreedomCounter
             ContentWindow.MouseEnter += Window_MouseInOut;
 
             SettingsButton.Click += Settings_Clicked;
+            ExitButton.Click += ExitButton_Click;
 
         }
 
-        private void GetWorkdayValue()
+
+
+        private void GetWorkdayandLunchValue()
         {
             config = new SettingsConfig();
             config.GetSetting("Workday");
+            config.GetSetting("Lunch");
         }
 
         private void Settings_Clicked(object sender, RoutedEventArgs e)
@@ -74,6 +82,10 @@ namespace FreedomCounter
                 settingsWindow = new SettingsWindow();
                 settingsWindow.Show();
             }
+        }
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
         private void Window_MouseInOut(object sender, MouseEventArgs e)
         {

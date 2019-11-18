@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace FreedomCounter
@@ -26,7 +24,13 @@ namespace FreedomCounter
         public int Workday
         {
             get { return Convert.ToInt32(GetSetting("Workday")); }
-            set { SetSetting("Workday", value.ToString());}
+            set { SetSetting("Workday", value.ToString()); }
+        }
+
+        public int Lunch
+        {
+            get { return Convert.ToInt32(GetSetting("Lunch")); }
+            set { SetSetting("Lunch", value.ToString()); }
         }
 
         public void SetSetting(string key, string value)

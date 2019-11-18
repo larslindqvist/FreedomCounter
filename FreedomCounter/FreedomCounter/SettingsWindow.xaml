@@ -7,18 +7,24 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        Width="300px"
-        Height="400px"
+        Width="243.144"
+        Height="111.706"
         SizeToContent="Height"
         ResizeMode="NoResize"
-        x:Name="SettingsWindowObj">
+        x:Name="SettingsWindowObj"
+        Title="Settings">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0" x:Name="toolBar">
+        <Grid Grid.Row="0" x:Name="toolBar" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -58,13 +64,9 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1" Background="Black">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label FontSize="20" Foreground="White" Background="Transparent">Workday:</Label>
-                    <TextBox x:Name="workday" FontSize="20" Foreground="Black" Background="White" Width="145" ></TextBox>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
+        <Label FontSize="20" Foreground="White" Grid.Column="0" Grid.Row="1" VerticalContentAlignment="Center">Workday:</Label>
+        <TextBox x:Name="workday" FontSize="20" Foreground="Black" Background="White" Grid.Row="1" Grid.Column="1"  Height="34"></TextBox>
+        <Label Grid.Row="2" FontSize="20" Foreground="White"  VerticalContentAlignment="Center">Lunch:</Label>
+        <TextBox x:Name="lunch" FontSize="20" Foreground="Black" Background="White" Grid.Column="1" Grid.Row="2" TextChanged="lunch_TextChanged" Height="34"></TextBox>
     </Grid>
 </Window>

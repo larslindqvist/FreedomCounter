@@ -7,7 +7,8 @@
         Width="300px"
         Height="400px"
         SizeToContent="Height"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Title="Freedom!">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
