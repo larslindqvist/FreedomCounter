@@ -58,7 +58,10 @@ namespace FreedomCounter
             XElement config = new XElement("configuration",
                 new XElement("setting",
                     new XAttribute("key", "Workday"),
-                    new XAttribute("value", "8")));
+                    new XAttribute("value", "8")),
+                 new XElement("setting",
+                     new XAttribute("key", "Lunch"),
+                     new XAttribute("value", "30")));
             return config;
         }
     }
