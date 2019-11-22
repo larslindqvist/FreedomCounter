@@ -12,9 +12,13 @@ namespace FreedomCounter
     public partial class SettingsWindow : Window
     {
         private SettingsConfig config;
-        public SettingsWindow()
+        private DateTime startTime;
+        private DateTime endTime;
+        public SettingsWindow(DateTime startTime, DateTime endTime)
         {
             InitializeComponent();
+            this.startTime = startTime;
+            this.endTime = endTime;
             config = new SettingsConfig();
             config.GetSetting("Workday");
             config.GetSetting("Lunch");
@@ -24,7 +28,7 @@ namespace FreedomCounter
             this.workday.Text = workday.ToString();
             this.workday.TextChanged += Workday_Changed;
             this.lunch.Text = lunch.ToString();
-            this.lunch.TextChanged += lunch_TextChanged;
+            this.lunch.TextChanged += Lunch_TextChanged;
             ExitButton.Click += ExitButton_Click;
         }
 
@@ -38,18 +42,20 @@ namespace FreedomCounter
             {
                 config.Workday = Convert.ToInt32(workday.Text);
                 workday.Background = Brushes.White;
+                SetEndTime(startTime, endTime);
             }
             catch (Exception)
             {
                 workday.Background = Brushes.Red;
             }
         }
-        private void lunch_TextChanged(object sender, TextChangedEventArgs e)
+        private void Lunch_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
                 config.Lunch = Convert.ToInt32(lunch.Text);
                 lunch.Background = Brushes.White;
+                SetEndTime(startTime, endTime);
             }
             catch (Exception)
             {
@@ -63,6 +69,11 @@ namespace FreedomCounter
             {
                 DragMove();
             }
+        }
+
+        private void SetEndTime(DateTime startTime, DateTime endTime)
+        {
+            this.endTime = new DateTime(startTime.Year, startTime.Month, startTime.Day, startTime.Hour, startTime.Minute, startTime.Second) + new TimeSpan(config.Workday, config.Lunch, 0);
         }
     }
 

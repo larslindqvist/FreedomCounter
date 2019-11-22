@@ -14,10 +14,19 @@ namespace FreedomCounter
         private Window settingsWindow;
         private int _CounterDown;
         private int _CounterUp;
-
+        private DatabaseHandler handler;
+        private DateTime startTime;
+        private DateTime endTime;
+       
         public MainWindow()
         {
             InitializeComponent();
+            config = new SettingsConfig();
+            handler = new DatabaseHandler();
+            startTime = GetStartDate();
+            endTime = new DateTime(startTime.Year, startTime.Month, startTime.Day, startTime.Hour, startTime.Minute, startTime.Second) + new TimeSpan(config.Workday, config.Lunch, 0);
+            Console.WriteLine(startTime);
+
             if (SettingsButton.Background.IsFrozen)
             {
                 SettingsButton.Background = SettingsButton.Background.Clone();
@@ -40,10 +49,12 @@ namespace FreedomCounter
 
             DispatcherTimer timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
-                GetWorkdayandLunchValue();
                 _CounterDown -= 1;
-                timeLeft.Content = new TimeSpan(config.Workday, config.Lunch, _CounterDown);
-                freeTime.Content = (DateTime.Now + TimeSpan.FromHours(config.Workday)).ToShortTimeString();
+                timeLeft.Content = new TimeSpan(
+                    endTime.Hour - DateTime.Now.Hour,
+                    endTime.Minute - DateTime.Now.Minute,
+                    endTime.Second + _CounterDown);
+                freeTime.Content = (startTime + TimeSpan.FromHours(config.Workday)).ToShortTimeString();
                 if (timeLeft.Content.Equals("08:00"))
                 {
                     _CounterUp += 1;
@@ -55,7 +66,6 @@ namespace FreedomCounter
                 };
             }, this.Dispatcher);
 
-
             toolBar.Visibility = Visibility.Collapsed;
             ContentWindow.MouseMove += Window_MouseMove;
             ContentWindow.MouseLeave += Window_MouseInOut;
@@ -66,25 +76,17 @@ namespace FreedomCounter
 
         }
 
-
-
-        private void GetWorkdayandLunchValue()
-        {
-            config = new SettingsConfig();
-            config.GetSetting("Workday");
-            config.GetSetting("Lunch");
-        }
-
         private void Settings_Clicked(object sender, RoutedEventArgs e)
         {
             if (settingsWindow == null)
             {
-                settingsWindow = new SettingsWindow();
+                settingsWindow = new SettingsWindow(startTime, endTime);
                 settingsWindow.Show();
             }
         }
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+            handler.InsertTime("Stopped", DateTime.Now);
             this.Close();
         }
         private void Window_MouseInOut(object sender, MouseEventArgs e)
@@ -104,6 +106,21 @@ namespace FreedomCounter
             {
                 DragMove();
             }
+        }
+
+        private DateTime GetStartDate()
+        {
+            DateTime startDate = DateTime.Now;
+            if (!handler.IsFirstStartToday())
+            {
+                startDate = handler.GetFirstStartToday();
+            }
+            else
+            {
+                handler.InsertTime("First", startDate);
+            }
+
+            return startDate;
         }
     }
 }
