@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows.Media;
 
 namespace FreedomCounter
 {
@@ -15,7 +16,7 @@ namespace FreedomCounter
         {
             using (var cmd = new SQLiteCommand(GetDbConnection()))
             {
-                cmd.CommandText = @"CREATE TABLE IF NOT EXISTS logs(id INTEGER PRIMARY KEY, name TEXT, created TEXT)";
+                cmd.CommandText = @"CREATE TABLE IF NOT EXISTS logs(id INTEGER PRIMARY KEY, name TEXT, created TEXT, workhours TEXT)";
                 cmd.ExecuteNonQuery();
             }
         }
@@ -40,6 +41,16 @@ namespace FreedomCounter
             }
         }
 
+        public void UpdateWorkhours(string name, DateTime workhours)
+        {
+            using (var cmd = new SQLiteCommand(GetDbConnection()))
+            {
+                cmd.CommandText = "UPDATE logs SET workhours = @workhours WHERE name = @name";
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@workhours", workhours);
+                cmd.ExecuteNonQuery();
+            }
+        }
 
         public bool IsFirstStartToday()
         {

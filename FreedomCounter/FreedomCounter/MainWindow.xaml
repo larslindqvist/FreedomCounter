@@ -66,14 +66,13 @@
         <Grid x:Name="ContentGrid" Grid.Row ="1" Background="Black">
             <StackPanel>
                 <Label FontSize="30" Foreground="White" Background="Transparent">Freedom Counter</Label>
-                <Label x:Name="timeLeft" FontSize="50" Foreground="White" Background="Transparent"></Label>
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="overTime" FontSize="50" Foreground="White" Background="Transparent" Content="+"></Label>
+                    <Label x:Name="timeLeft" FontSize="50" Foreground="White" Background="Transparent"></Label>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label FontSize="20" Foreground="White" Background="Transparent">You are free at:</Label>
                     <Label x:Name="freeTime" FontSize="20" Foreground="White" Background="Transparent"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label FontSize="20" Foreground="White" Background="Transparent">Overtime:</Label>
-                    <Label x:Name="overtime" FontSize="20" Foreground="White" Background="Transparent"></Label>
                 </StackPanel>
             </StackPanel>
         </Grid>

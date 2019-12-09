@@ -8,6 +8,7 @@ namespace FreedomCounter
     public class SettingsConfig
     {
         private XDocument doc;
+        public event EventHandler ValueChanged;
         public SettingsConfig()
         {
             if (!File.Exists(Directory.GetCurrentDirectory() + "/settings.config"))
@@ -21,16 +22,29 @@ namespace FreedomCounter
             doc = XDocument.Load(Directory.GetCurrentDirectory() + "/settings.config");
         }
 
+        protected virtual void OnValueChanged()
+        {
+            ValueChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public int Workday
         {
             get { return Convert.ToInt32(GetSetting("Workday")); }
-            set { SetSetting("Workday", value.ToString()); }
+            set
+            {
+                SetSetting("Workday", value.ToString()); 
+                OnValueChanged();
+            }
         }
 
         public int Lunch
         {
             get { return Convert.ToInt32(GetSetting("Lunch")); }
-            set { SetSetting("Lunch", value.ToString()); }
+            set
+            {
+                SetSetting("Lunch", value.ToString()); 
+                OnValueChanged();
+            }
         }
 
         public void SetSetting(string key, string value)

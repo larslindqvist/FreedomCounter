@@ -14,12 +14,10 @@ namespace FreedomCounter
         private SettingsConfig config;
         private DateTime startTime;
         private DateTime endTime;
-        public SettingsWindow(DateTime startTime, DateTime endTime)
+        public SettingsWindow(SettingsConfig config)
         {
             InitializeComponent();
-            this.startTime = startTime;
-            this.endTime = endTime;
-            config = new SettingsConfig();
+            this.config = config;
             config.GetSetting("Workday");
             config.GetSetting("Lunch");
             int workday = config.Workday;
@@ -30,10 +28,14 @@ namespace FreedomCounter
             this.lunch.Text = lunch.ToString();
             this.lunch.TextChanged += Lunch_TextChanged;
             ExitButton.Click += ExitButton_Click;
+            IsOpen = true;
         }
+
+        public bool IsOpen { get; set; }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+            IsOpen = false;
             this.Close();
         }
         private void Workday_Changed(object sender, TextChangedEventArgs e)
